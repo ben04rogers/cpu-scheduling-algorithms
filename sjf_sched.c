@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 struct process
 {
@@ -22,7 +23,7 @@ node *ftail = NULL; /* SJF scheduling queue's tail */
 
 void print_list(node *);
 
-int sjf(node *p); /* the shortest job first scheduling algorithm */
+void sjf(node *p); /* the shortest job first scheduling algorithm */
 
 /*insert function for the ready queue */
 void r_insq(node *new)
@@ -71,9 +72,37 @@ int main()
     return 0;
 }
 
-int sjf(node *p)
+void sjf(node *p)
 {
     //TO DO - Implement SJF Solution
+    for (;;) {
+        node *traversal = p;
+        int shortest_job_length = INT_MAX;
+        node *shortest_job = NULL;
+
+        while (traversal != NULL) {
+
+            if (traversal->burst < shortest_job_length) {
+                shortest_job_length = traversal->burst;
+                shortest_job = traversal;
+            }
+
+            traversal = traversal->next;
+        }
+
+        if (shortest_job != NULL) {
+            node *sj = malloc(sizeof(node));
+            sj->data = shortest_job->data;
+            sj->burst = shortest_job->burst;
+            sj->next = NULL;
+
+            f_insq(sj);
+
+            shortest_job->burst = INT_MAX;
+        } else {
+            break;
+        }
+    }
 }
 
 void print_list(node *p)

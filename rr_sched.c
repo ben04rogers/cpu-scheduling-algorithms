@@ -12,7 +12,7 @@ struct process
     struct process *next;
 };
 
-#define QUANTUM 20
+#define QUANTUM 50
 
 typedef struct process node;
 
